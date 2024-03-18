@@ -9,7 +9,7 @@ export const createBlog = async (req: MulterRequest, res: Response): Promise<voi
   try {
     const { title, description } = req.body;
     const image = req.file.path; 
-    const blog: BlogDocument = await Blog.create({ title, image, description });
+    const blog: BlogDocument = await Blog.create({ title, image, description, likesCount: 0});
     res.status(201).json({ blog });
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
@@ -45,6 +45,50 @@ export const getAllBlogs = async (req: Request, res: Response): Promise<void> =>
   try {
     const blogs: BlogDocument[] = await Blog.find({});
     res.status(200).json({ blogs });
+  } catch (error) {
+    res.status(500).json({ error: (error as Error).message });
+  }
+};
+
+export const incrementLikes = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+
+    const blog: BlogDocument | null = await Blog.findById(id);
+
+    if (!blog) {
+      res.status(404).json({ error: 'Blog not found' });
+      return;
+    }
+
+    blog.likesCount += 1;
+
+    await blog.save();
+
+    res.status(200).json({ blog });
+  } catch (error) {
+    res.status(500).json({ error: (error as Error).message });
+  }
+};
+
+export const decrementLikes = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+
+    const blog: BlogDocument | null = await Blog.findById(id);
+
+    if (!blog) {
+      res.status(404).json({ error: 'Blog not found' });
+      return;
+    }
+
+    if (blog.likesCount > 0) {
+      blog.likesCount -= 1;
+    }
+
+    await blog.save();
+
+    res.status(200).json({ blog });
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
   }
