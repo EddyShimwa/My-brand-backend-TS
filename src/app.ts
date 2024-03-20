@@ -3,7 +3,9 @@ import mongoose from 'mongoose';
 import authRoutes from './routes/authRoutes';
 import blogRoutes from './routes/blogRoutes';
 import dotenv from 'dotenv';
+import { Request, Response, NextFunction } from 'express';
 dotenv.config();
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -21,6 +23,9 @@ mongoose.connect(MONGODB_URI)
   
 app.use('/api', authRoutes);
 app.use('/api', blogRoutes);
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  res.status(500).json({ error: err.message });
+});
 
 app.listen(PORT, () => {
   console.log(`Your Server is running on port ${PORT}`);

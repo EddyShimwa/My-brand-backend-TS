@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Blog, { BlogDocument } from '../models/Blog';
+import { asyncHandler } from '../Middleware/handleTryAndCatch';
 
 interface MulterRequest extends Request {
   file: Express.Multer.File;
@@ -50,47 +51,26 @@ export const getAllBlogs = async (req: Request, res: Response): Promise<void> =>
   }
 };
 
-export const incrementLikes = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { id } = req.params;
+export const incrementLikes = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params;
+  const userId = req.user.id; 
+  const blog: BlogDocument | null = await Blog.findById(id);
 
-    const blog: BlogDocument | null = await Blog.findById(id);
+  if (!blog) {
+    res.status(404).json({ error: 'Blog not found' });
+    return;  
+  }
 
-    if (!blog) {
-      res.status(404).json({ error: 'Blog not found' });
-      return;
-    }
-
+  if (blog.likedBy.includes(userId)) {
+    blog.likesCount -= 1;
+    blog.likedBy = blog.likedBy.filter(id => id !== userId);
+  } else {
     blog.likesCount += 1;
-
-    await blog.save();
-
-    res.status(200).json({ blog });
-  } catch (error) {
-    res.status(500).json({ error: (error as Error).message });
+    blog.likedBy.push(userId);
   }
-};
 
-export const decrementLikes = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { id } = req.params;
+  await blog.save();
 
-    const blog: BlogDocument | null = await Blog.findById(id);
-
-    if (!blog) {
-      res.status(404).json({ error: 'Blog not found' });
-      return;
-    }
-
-    if (blog.likesCount > 0) {
-      blog.likesCount -= 1;
-    }
-
-    await blog.save();
-
-    res.status(200).json({ blog });
-  } catch (error) {
-    res.status(500).json({ error: (error as Error).message });
-  }
-};
+  res.status(200).json({ blog });
+});
 
