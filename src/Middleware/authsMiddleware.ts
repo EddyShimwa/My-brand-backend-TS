@@ -11,8 +11,6 @@ declare global {
   }
 }
 
-//check if the user is authenticated
-
 export const isAuthenticated = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const token = req.headers.authorization?.split(' ')[1];
