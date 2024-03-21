@@ -36,3 +36,5 @@ app.use('/api', projectRoutes);
 app.listen(PORT, () => {
   console.log(`Your Server is running on port ${PORT}`);
 });
+
+export default app;
