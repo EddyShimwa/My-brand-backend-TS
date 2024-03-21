@@ -2,6 +2,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import authRoutes from './routes/authRoutes';
 import blogRoutes from './routes/blogRoutes';
+import skillRoutes from './routes/skillRoutes';
+import commentsRoutes from './routes/commentsRoutes';
 import dotenv from 'dotenv';
 import { Request, Response, NextFunction } from 'express';
 dotenv.config();
@@ -26,6 +28,8 @@ app.use('/api', blogRoutes);
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({ error: err.message });
 });
+app.use('/api', skillRoutes);
+app.use('/api', commentsRoutes);
 
 app.listen(PORT, () => {
   console.log(`Your Server is running on port ${PORT}`);
