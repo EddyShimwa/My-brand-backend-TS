@@ -1,15 +1,15 @@
 import { Request, Response } from 'express';
 import Blog, { BlogDocument } from '../models/Blog';
 import { asyncHandler } from '../Middleware/handleTryAndCatch';
+import  { UserDocument }  from '../models/User';
 
-interface MulterRequest extends Request {
-  file: Express.Multer.File;
+interface RequestWithUser extends Request {
+  user: UserDocument;
 }
 
-export const createBlog = async (req: MulterRequest, res: Response): Promise<void> => {
+export const createBlog = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { title, description } = req.body;
-    const image = req.file.path; 
+    const { title, description, image } = req.body;
     const blog: BlogDocument = await Blog.create({ title, image, description, likesCount: 0});
     res.status(201).json({ blog });
   } catch (error) {
@@ -17,11 +17,10 @@ export const createBlog = async (req: MulterRequest, res: Response): Promise<voi
   }
 };
 
-export const editBlog = async (req: MulterRequest, res: Response): Promise<void> => {
+export const editBlog = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const { title, description } = req.body;
-    const image = req.file?.path;
+    const { title, description, image } = req.body;
 
     const blog: BlogDocument | null = await Blog.findById(id);
 
@@ -51,7 +50,7 @@ export const getAllBlogs = async (req: Request, res: Response): Promise<void> =>
   }
 };
 
-export const incrementLikes = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+export const incrementLikes = asyncHandler(async (req: RequestWithUser, res: Response): Promise<void> => {
   const { id } = req.params;
   const userId = req.user.id; 
   const blog: BlogDocument | null = await Blog.findById(id);
@@ -73,4 +72,3 @@ export const incrementLikes = asyncHandler(async (req: Request, res: Response): 
 
   res.status(200).json({ blog });
 });
-

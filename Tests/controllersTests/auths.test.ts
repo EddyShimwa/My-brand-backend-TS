@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import express from 'express';
 import authRoutes from '../../src/routes/authRoutes';
-import User from '../models/User';
+import User from '../../src/models/User';
 
 const app = express();
 app.use(express.json());
@@ -12,9 +12,12 @@ app.use('/api', authRoutes);
 let mongoServer: MongoMemoryServer;
 
 beforeAll(async () => {
-  mongoServer = await MongoMemoryServer.create();
-  await mongoose.connect(mongoServer.getUri(), {
-  });
+  try {
+    mongoServer = await MongoMemoryServer.create();
+    await mongoose.connect(mongoServer.getUri(), {});
+  } catch (error) {
+    console.error('Failed to create MongoMemoryServer', error);
+  }
 });
 
 afterAll(async () => {
