@@ -22,8 +22,6 @@ jest.mock('../Middleware/authsMiddleware', () => ({
   },
   isAdmin: (req: Request, res: Response, next: NextFunction) => next(),
 }));
-
-// Connect to the database before running any tests
 beforeAll(async () => {
   const uri = process.env.MONGODB_URI;
   if (!uri) {
