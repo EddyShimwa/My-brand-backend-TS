@@ -4,10 +4,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import express from 'express';
 import authRoutes from '../../src/routes/authRoutes';
 import User from '../../src/models/User';
-
-const app = express();
-app.use(express.json());
-app.use('/api', authRoutes);
+import app from '../../src/app' 
 
 let mongoServer: MongoMemoryServer;
 

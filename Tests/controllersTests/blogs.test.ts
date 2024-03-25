@@ -6,13 +6,8 @@ import blogRoutes from '../../src/routes/blogRoutes';
 import mongoose from 'mongoose';
 import Blog from '../../src/models/Blog';
 import dotenv from 'dotenv';
+import app from '../../src/app' 
 dotenv.config();
-
-// Create a test app and apply your routes
-const app = express();
-app.use(express.json());
-app.use(blogRoutes);
-
 jest.setTimeout(30000);
 
 jest.mock('../Middleware/authsMiddleware', () => ({
