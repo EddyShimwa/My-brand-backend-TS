@@ -13,6 +13,7 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
     res.status(201).json({ user });
 
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: (error as Error).message });
   }
 };
@@ -29,6 +30,9 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     if (!isMatch) {
       res.status(401).json({ error: 'Invalid credentials' });
       return;
+    }
+    if (!JWT_SECRET) {
+      throw new Error('JWT_SECRET is not defined');
     }
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '7d' });
 
