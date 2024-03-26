@@ -5,20 +5,17 @@ import blogRoutes from './routes/blogRoutes';
 import skillRoutes from './routes/skillRoutes';
 import commentsRoutes from './routes/commentsRoutes';
 import projectRoutes from './routes/projectRoutes';
-import dotenv from 'dotenv';
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger');
-
-
 import { Request, Response, NextFunction } from 'express';
-dotenv.config();
+import dotenv from 'dotenv'
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '../swagger.js'; 
 
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI;
-
-
 
 app.use(express.json());
 
