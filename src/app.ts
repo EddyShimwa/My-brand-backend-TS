@@ -6,6 +6,10 @@ import skillRoutes from './routes/skillRoutes';
 import commentsRoutes from './routes/commentsRoutes';
 import projectRoutes from './routes/projectRoutes';
 import dotenv from 'dotenv';
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger');
+
+
 import { Request, Response, NextFunction } from 'express';
 dotenv.config();
 
@@ -14,6 +18,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI;
 
+
+
 app.use(express.json());
 
 if (!MONGODB_URI) {
@@ -21,9 +27,9 @@ if (!MONGODB_URI) {
 }
 
 mongoose.connect(MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('MongoDB connection error:', err));
-  
+.then(() => console.log('Connected to MongoDB'))
+.catch(err => console.error('MongoDB connection error:', err));
+
 app.use('/api', authRoutes);
 app.use('/api', blogRoutes);
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
@@ -32,6 +38,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 app.use('/api', skillRoutes);
 app.use('/api', commentsRoutes);
 app.use('/api', projectRoutes);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(PORT, () => {
   console.log(`Your Server is running on port ${PORT}`);

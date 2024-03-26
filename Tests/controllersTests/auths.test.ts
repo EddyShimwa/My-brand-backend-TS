@@ -46,5 +46,4 @@ describe('POST /auth/signup', () => {
     expect(res.statusCode).toEqual(201);
     expect(res.body.user.username).toEqual('test');
     expect(res.body.user.email).toEqual('123@test.com');
-  });
-});
+  });});
