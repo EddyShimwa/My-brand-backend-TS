@@ -2,8 +2,8 @@ import mongoose, { Document, Schema } from 'mongoose';
 
 export interface CommentDocument extends Document {
   content: string;
-  user: string;
-  blog: string;
+  user: mongoose.Types.ObjectId;
+  blog: mongoose.Types.ObjectId;
 }
 
 const CommentSchema = new Schema<CommentDocument>({
