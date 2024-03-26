@@ -1,12 +1,12 @@
 import request from 'supertest';
 import { Request, Response, NextFunction } from 'express';
-import { UserDocument } from '../../src/models/User'; 
+import { UserDocument } from '../models/User'; 
 import express from 'express';
-import blogRoutes from '../../src/routes/blogRoutes';
+import blogRoutes from '../routes/blogRoutes';
 import mongoose from 'mongoose';
-import Blog from '../../src/models/Blog';
+import Blog from '../models/Blog';
 import dotenv from 'dotenv';
-import app from '../../src/app' 
+import app from '../app' 
 dotenv.config();
 jest.setTimeout(30000);
 

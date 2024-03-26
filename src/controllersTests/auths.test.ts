@@ -2,9 +2,9 @@ import request from 'supertest';
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import express from 'express';
-import authRoutes from '../../src/routes/authRoutes';
-import User from '../../src/models/User';
-import app from '../../src/app' 
+import authRoutes from '../routes/authRoutes';
+import User from '../models/User';
+import app from '../app' 
 
 let mongoServer: MongoMemoryServer;
 
