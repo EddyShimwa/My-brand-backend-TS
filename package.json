@@ -19,7 +19,8 @@
   },
   "scripts": {
     "test": "jest",
-    "dev": "ts-node-dev --respawn --transpile-only src/app.ts"
+    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "build": "tsc"
   },
   "author": "Eddy",
   "license": "ISC",
