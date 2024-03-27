@@ -8,7 +8,7 @@ import projectRoutes from './routes/projectRoutes';
 import { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv'
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from '../swagger.js'; 
+import swaggerDocument from './swagger.ts'; 
 
 
 dotenv.config();

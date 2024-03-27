@@ -21,7 +21,9 @@ const router = express.Router();
  *             properties:
  *               title:
  *                 type: string
- *               content:
+ *               image:
+ *                 type: string
+ *               description:
  *                 type: string
  *     responses:
  *       201:
@@ -55,7 +57,9 @@ router.post('/blogs/createBlog', isAuthenticated, isAdmin,  createBlog);
  *             properties:
  *               title:
  *                 type: string
- *               content:
+ *               image:
+ *                 type: string
+ *               description:
  *                 type: string
  *     responses:
  *       200:
@@ -74,6 +78,25 @@ router.put('/blogs/editBlog/:id', isAuthenticated, isAdmin,  editBlog);
  *     responses:
  *       200:
  *         description: A list of blogs
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   title:
+ *                     type: string
+ *                   image:
+ *                     type: string
+ *                   description:
+ *                     type: string
+ *                   likesCount:
+ *                     type: number
+ *                   likedBy:
+ *                     type: array
+ *                     items:
+ *                       type: string
  */
 router.get('/blogs/all',getAllBlogs);
 
